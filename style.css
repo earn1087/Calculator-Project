@@ -1,0 +1,10 @@
+/* Some personal resets which make changes to the boxing layouts read notes */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
