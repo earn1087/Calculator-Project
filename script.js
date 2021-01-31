@@ -36,14 +36,16 @@ keys.addEventListener('click', e => {
             .forEach(k => k.classList.remove('is-depressed'))
 
         if (!action) {
-
-            calculator.dataset.previousKeyType = 'number'
-
-            if (displayedNum === '0' || previousKeyType === 'operator') {
+            if (
+                displayedNum === '0' ||
+                previousKeyType === 'operator' ||
+                previousKeyType === 'calculate'
+            ) {
                 display.textContent = keyContent
             } else {
                 display.textContent = displayedNum + keyContent
             }
+            calculator.dataset.previousKeyType = 'number'
         }
 
         if (action !== 'clear') {
@@ -84,7 +86,8 @@ keys.addEventListener('click', e => {
             if (
                 firstValue &&
                 operator &&
-                previousKeyType !== 'operator'
+                previousKeyType !== 'operator' &&
+                previousKeyType !== 'calculate'
             ) {
                 const calcValue = calculate(firstValue, operator, secondValue)
                 display.textContent = calcValue
@@ -102,15 +105,16 @@ keys.addEventListener('click', e => {
         }
 
         if (action === 'decimal') {
-
-            calculator.dataset.previousKeyType = 'decimal'
-
-            // Do nothing if string has a dot
             if (!displayedNum.includes('.')) {
                 display.textContent = displayedNum + '.'
-            } else if (previousKeyType === 'operator') {
+            } else if (
+                previousKeyType === 'operator' ||
+                previousKeyType === 'calculate'
+            ) {
                 display.textContent = '0.'
             }
+
+            calculator.dataset.previousKeyType = 'decimal'
         }
 
 
@@ -120,25 +124,23 @@ keys.addEventListener('click', e => {
             let secondValue = displayedNum
             // const secondValue = displayedNum broke the code 
             // study why
-          
+
             if (firstValue) {
                 if (previousKeyType === 'calculate') {
                     firstValue = displayedNum
                     secondValue = calculator.dataset.modValue
-                  }
-          
-              display.textContent = calculate(firstValue, operator, secondValue)
+                }
+
+                display.textContent = calculate(firstValue, operator, secondValue)
             }
-          
+
             // Set modValue attribute
             calculator.dataset.modValue = secondValue
             calculator.dataset.previousKeyType = 'calculate'
-          }
+        }
 
     }
 })
 
-// Up to Back to the equal key 
-// also have not pushed to github
 
 
